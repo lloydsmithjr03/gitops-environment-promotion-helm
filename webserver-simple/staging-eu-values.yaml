@@ -28,8 +28,4 @@ replicaCount: 3
 
 fullnameOverride: staging-eu-simple
 
-nodeSelector: {
-  matchLabels: {
-    app: trivial-go-web-app
-  }
-}
+nodeSelector: {}

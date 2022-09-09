@@ -28,8 +28,4 @@ replicaCount: 8
 
 fullnameOverride: prod-us-simple
 
-nodeSelector: {
-  matchLabels: {
-    app: trivial-go-web-app
-  }
-}
+nodeSelector: {}
