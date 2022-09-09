@@ -1,7 +1,0 @@
-fullnameOverride: qa-simple-service
-
-nodeSelector: {
-  matchLabels: {
-    app: trivial-go-web-app
-  }
-}

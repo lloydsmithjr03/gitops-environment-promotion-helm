@@ -21,3 +21,13 @@ env:
     value: non-prod-user
   - name: DB_PASSWORD
     value: non-prod-password
+
+replicaCount: 3
+
+fullnameOverride: qa-simple
+
+nodeSelector: {
+  matchLabels: {
+    app: trivial-go-web-app
+  }
+}
