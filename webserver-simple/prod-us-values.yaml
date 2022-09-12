@@ -27,3 +27,8 @@ env:
 replicaCount: 8
 
 fullnameOverride: prod-us-simple
+
+service: {
+  type: NodePort,
+  nodePort: 31002
+}

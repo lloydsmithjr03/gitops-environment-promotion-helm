@@ -27,7 +27,6 @@ env:
 replicaCount: 3
 
 fullnameOverride: staging-eu-simple
-namespace: staging-helm
 
 service: {
   type: NodePort,

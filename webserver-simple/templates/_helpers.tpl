@@ -48,7 +48,6 @@ Selector labels
 {{- define "webserver-simple.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "webserver-simple.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app: trivial-go-web-app
 {{- end }}
 
 {{/*
