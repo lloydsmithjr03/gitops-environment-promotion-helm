@@ -1,0 +1,6 @@
+dependencies:
+- name: webserver-simple
+  repository: file://../webserver-simple
+  version: 0.1.0
+digest: sha256:0a5e10dc0709e8f11a6a618c8752d5671f86779f226bbed00ccf3d5e47fdded6
+generated: "2022-09-12T13:02:14.909436-04:00"
