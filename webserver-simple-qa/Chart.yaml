@@ -26,3 +26,4 @@ appVersion: "1.0"
 dependencies:
   - name: webserver-simple
     version: 0.1.0
+    repository: "file://../webserver-simple"
