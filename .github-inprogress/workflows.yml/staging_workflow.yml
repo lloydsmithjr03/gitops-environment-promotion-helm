@@ -1,0 +1,24 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'qa')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+      - name: Copy files
+        run: |
+          cp webserver-simple/qa-version.yml webserver-simple/staging-us-version.yml
+          cp webserver-simple/qa-version.yml webserver-simple/staging-eu-version.yml
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.1.1
+        with:
+          commit-message: 'promote: qa to staging'
+          title: 'promote: qa to staging'
+          body: |
+            Promotes QA version to staging
+          labels: staging
