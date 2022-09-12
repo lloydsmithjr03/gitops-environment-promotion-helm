@@ -27,10 +27,6 @@ global:
 
   fullnameOverride: qa-simple
 
-  autoscaling: {
-    enabled: false
-  }
-
   service: {
     type: NodePort,
     nodePort: 31000

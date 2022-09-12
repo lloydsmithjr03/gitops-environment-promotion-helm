@@ -3,4 +3,4 @@ dependencies:
   repository: file://../webserver-simple
   version: 0.2.0
 digest: sha256:620807b2e310fd8099cff7e33b7e53689455570b6d9a815c5efbdc742ca63b0f
-generated: "2022-09-12T14:01:44.4812314-04:00"
+generated: "2022-09-12T14:02:07.6045541-04:00"

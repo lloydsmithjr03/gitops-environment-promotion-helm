@@ -33,3 +33,10 @@ global:
     type: NodePort,
     nodePort: 31001
   }
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
