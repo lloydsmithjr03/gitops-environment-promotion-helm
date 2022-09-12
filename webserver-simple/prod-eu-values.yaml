@@ -27,5 +27,9 @@ env:
 replicaCount: 8
 
 fullnameOverride: prod-eu-simple
+namespace: prod-helm
 
-nodeSelector: {}
+service: {
+  type: NodePort,
+  nodePort: 31003
+}

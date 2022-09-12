@@ -12,7 +12,8 @@ image:
 
 imagePullSecrets: []
 nameOverride: "1.0"
-fullnameOverride: "simple-deployment"
+fullnameOverride: "simple"
+namespace: 'default'
 
 serviceAccount:
   # Specifies whether a service account should be created

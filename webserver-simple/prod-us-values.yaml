@@ -27,5 +27,3 @@ env:
 replicaCount: 8
 
 fullnameOverride: prod-us-simple
-
-nodeSelector: {}
