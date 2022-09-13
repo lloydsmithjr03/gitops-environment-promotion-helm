@@ -1,0 +1,44 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'preview')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+      - name: version
+        id: version
+        run: |
+          VERSION=$(echo $(grep '^version:' ./webserver-simple/Chart.yaml | awk '{print $2}'))
+          echo "::set-output name=version::$VERSION"
+      - name: Update helm dependency version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-qa/Chart.yaml'
+          propertyPath: 'dependencies[0].version'
+          value: ${{ steps.version.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: Update helm chart version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-qa/Chart.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.version.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: update helm dependencies
+        run: |
+          helm dependency build ./webserver-simple-qa/
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4.1.1
+        with:
+          commit-message: 'promote: base to qa'
+          title: 'promote: base to QA'
+          body: |
+            Promotes base version to QA
+          labels: qa

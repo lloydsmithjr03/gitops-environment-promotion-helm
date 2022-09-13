@@ -5,15 +5,59 @@ on:
 
 jobs:
   if_merged:
-    if: github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'staging')
+    if: github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'prod')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.2
-      - name: Copy files
+      - name: version us
+        id: versionus
         run: |
-          cp webserver-simple/staging-us-version.yml webserver-simple/prod-us-version.yml
-          cp webserver-simple/staging-eu-version.yml webserver-simple/prod-eu-version.yml
+          VERSION=$(echo $(grep '^version:' ./webserver-simple-staging/Chart.yaml | awk '{print $2}'))
+          echo "::set-output name=version::$VERSION"
+      - name: version eu
+        id: versioneu
+        run: |
+          VERSION=$(echo $(grep '^version:' ./webserver-simple-staging/Chart.yaml | awk '{print $2}'))
+          echo "::set-output name=version::$VERSION"
+      - name: Update helm dependency version - prod us
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-prod-us/Chart.yaml'
+          propertyPath: 'dependencies[0].version'
+          value: ${{ steps.versionus.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: Update helm chart version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-prod-us/Chart.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.versionus.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: update helm dependencies - prod us
+        run: |
+          helm dependency build ./webserver-simple-prod-us/
+      - name: Update helm dependency version - prod eu
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-prod-eu/Chart.yaml'
+          propertyPath: 'dependencies[0].version'
+          value: ${{ steps.versioneu.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: Update helm chart version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-prod-eu/Chart.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.versioneu.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: update helm dependencies - prod eu
+        run: |
+          helm dependency build ./webserver-simple-prod-eu/
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4.1.1
         with:

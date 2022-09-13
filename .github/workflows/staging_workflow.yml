@@ -10,10 +10,49 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.4.2
-      - name: Copy files
+      - name: version
+        id: version
         run: |
-          cp webserver-simple/qa-version.yml webserver-simple/staging-us-version.yml
-          cp webserver-simple/qa-version.yml webserver-simple/staging-eu-version.yml
+          VERSION=$(echo $(grep '^version:' ./webserver-simple-qa/Chart.yaml | awk '{print $2}'))
+          echo "::set-output name=version::$VERSION"
+      - name: Update helm dependency version - staging us
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-staging-us/Chart.yaml'
+          propertyPath: 'dependencies[0].version'
+          value: ${{ steps.version.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: Update helm chart version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-staging-us/Chart.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.version.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: update helm dependencies - staging us
+        run: |
+          helm dependency build ./webserver-simple-staging-us/
+      - name: Update helm dependency version - staging eu
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-staging-eu/Chart.yaml'
+          propertyPath: 'dependencies[0].version'
+          value: ${{ steps.version.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: Update helm chart version
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          valueFile: 'webserver-simple-staging-eu/Chart.yaml'
+          propertyPath: 'version'
+          value: ${{ steps.version.outputs.version }}
+          commitChange: false
+          updateFile: true
+      - name: update helm dependencies - staging eu
+        run: |
+          helm dependency build ./webserver-simple-staging-eu/
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4.1.1
         with:
