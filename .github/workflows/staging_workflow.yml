@@ -35,7 +35,7 @@ jobs:
           workDir: 'webserver-simple-staging-us'
       - name: update helm dependencies - staging us
         run: |
-          helm dependency build ./webserver-simple-staging-us/
+          helm dependency update ./webserver-simple-staging-us/
       - name: Update helm dependency version - staging eu
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -56,7 +56,7 @@ jobs:
           workDir: 'webserver-simple-staging-eu'
       - name: update helm dependencies - staging eu
         run: |
-          helm dependency build ./webserver-simple-staging-eu/
+          helm dependency update ./webserver-simple-staging-eu/
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4.1.1
         with:
