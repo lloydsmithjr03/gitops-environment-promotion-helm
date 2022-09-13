@@ -35,7 +35,7 @@ jobs:
           workDir: 'webserver-simple-qa'
       - name: update helm dependencies
         run: |
-          helm dependency build ./webserver-simple-qa/
+          helm dependency update ./webserver-simple-qa/
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4.1.1
         with:

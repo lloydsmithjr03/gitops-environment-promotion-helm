@@ -40,7 +40,7 @@ jobs:
           workDir: 'webserver-simple-prod-us'
       - name: update helm dependencies - prod us
         run: |
-          helm dependency build ./webserver-simple-prod-us/
+          helm dependency update ./webserver-simple-prod-us/
       - name: Update helm dependency version - prod eu
         uses: fjogeleit/yaml-update-action@main
         with:
@@ -61,7 +61,7 @@ jobs:
           workDir: 'webserver-simple-prod-eu'
       - name: update helm dependencies - prod eu
         run: |
-          helm dependency build ./webserver-simple-prod-eu/
+          helm dependency update ./webserver-simple-prod-eu/
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4.1.1
         with:
