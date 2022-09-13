@@ -67,7 +67,7 @@ jobs:
         with:
           commit-message: 'promote: staging to production'
           title: 'promote: staging to production'
-          branch: 'staging-to-prod-${github.event.pull_request.id}'
+          branch: "staging-to-prod-${{github.event.pull_request.id}}"
           body: |
             Promotes staging version to production
           labels: prod
