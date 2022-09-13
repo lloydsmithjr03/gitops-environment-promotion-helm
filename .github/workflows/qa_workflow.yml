@@ -41,7 +41,7 @@ jobs:
         with:
           commit-message: 'promote: base to qa'
           title: 'promote: base to QA'
-          branch: 'base-to-qa-${github.event.pull_request.id}'
+          branch: "base-to-qa-${{github.event.pull_request.id}}"
           body: |
             Promotes base version to QA
           labels: qa

@@ -62,7 +62,7 @@ jobs:
         with:
           commit-message: 'promote: qa to staging'
           title: 'promote: qa to staging'
-          branch: 'qa-to-staging-${github.event.pull_request.id}'
+          branch: "qa-to-staging-${{github.event.pull_request.id}}"
           body: |
             Promotes QA version to staging
           labels: staging
