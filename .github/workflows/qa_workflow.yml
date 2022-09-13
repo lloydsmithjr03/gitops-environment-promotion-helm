@@ -18,19 +18,21 @@ jobs:
       - name: Update helm dependency version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-qa/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'dependencies[0].version'
           value: ${{ steps.version.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-qa'
       - name: Update helm chart version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-qa/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'version'
           value: ${{ steps.version.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-qa'
       - name: update helm dependencies
         run: |
           helm dependency build ./webserver-simple-qa/

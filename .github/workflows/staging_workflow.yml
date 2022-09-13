@@ -18,38 +18,42 @@ jobs:
       - name: Update helm dependency version - staging us
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-staging-us/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'dependencies[0].version'
           value: ${{ steps.version.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-staging-us'
       - name: Update helm chart version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-staging-us/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'version'
           value: ${{ steps.version.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-staging-us'
       - name: update helm dependencies - staging us
         run: |
           helm dependency build ./webserver-simple-staging-us/
       - name: Update helm dependency version - staging eu
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-staging-eu/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'dependencies[0].version'
           value: ${{ steps.version.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-staging-eu'
       - name: Update helm chart version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-staging-eu/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'version'
           value: ${{ steps.version.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-staging-eu'
       - name: update helm dependencies - staging eu
         run: |
           helm dependency build ./webserver-simple-staging-eu/

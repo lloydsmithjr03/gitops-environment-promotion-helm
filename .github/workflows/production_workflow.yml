@@ -13,48 +13,52 @@ jobs:
       - name: version us
         id: versionus
         run: |
-          VERSION=$(echo $(grep '^version:' ./webserver-simple-staging/Chart.yaml | awk '{print $2}'))
+          VERSION=$(echo $(grep '^version:' ./webserver-simple-staging-us/Chart.yaml | awk '{print $2}'))
           echo "::set-output name=version::$VERSION"
       - name: version eu
         id: versioneu
         run: |
-          VERSION=$(echo $(grep '^version:' ./webserver-simple-staging/Chart.yaml | awk '{print $2}'))
+          VERSION=$(echo $(grep '^version:' ./webserver-simple-staging-eu/Chart.yaml | awk '{print $2}'))
           echo "::set-output name=version::$VERSION"
       - name: Update helm dependency version - prod us
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-prod-us/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'dependencies[0].version'
           value: ${{ steps.versionus.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-prod-us'
       - name: Update helm chart version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-prod-us/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'version'
           value: ${{ steps.versionus.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-prod-us'
       - name: update helm dependencies - prod us
         run: |
           helm dependency build ./webserver-simple-prod-us/
       - name: Update helm dependency version - prod eu
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-prod-eu/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'dependencies[0].version'
           value: ${{ steps.versioneu.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-prod-eu'
       - name: Update helm chart version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'webserver-simple-prod-eu/Chart.yaml'
+          valueFile: 'Chart.yaml'
           propertyPath: 'version'
           value: ${{ steps.versioneu.outputs.version }}
           commitChange: false
           updateFile: true
+          workDir: 'webserver-simple-prod-eu'
       - name: update helm dependencies - prod eu
         run: |
           helm dependency build ./webserver-simple-prod-eu/
